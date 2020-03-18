@@ -3,26 +3,32 @@
 class Medium < ApplicationRecord
   has_many :parts, dependent: :delete_all
 
+  REGION = "us-east-1"
   BUCKET = "talaria-development"
   def transfer_to_s3
-    raise "incomplete" unless complete? # TODO: handle this better
-
-    s3client = Aws::S3::Client.new(region: "us-east-1")
+    raise IncompleteMediumError unless complete?
 
     size = parts_in_sequence.sum("length(blob)")
     if size < 10.megabytes
-      s3client.put_object(bucket: BUCKET, key: s3_key, body: parts_in_sequence.pluck(:blob).reduce(&:+))
+      body = parts_in_sequence.pluck(:blob).reduce(&:+)
+      s3_object.put(content_type: "audio/mpeg", body: body)
     else
       use_multipart_upload
     end
+    self.url = s3_object.public_url
+    save!
+  end
+
+  def s3_object
+    Aws::S3::Resource.new(region: REGION).bucket(BUCKET).object(s3_key)
   end
 
   def complete?
-    parts.maximum(:sequence_number) == parts.count - 1 # FIXME: handle this better
+    parts.maximum(:sequence_number) == parts.count - 1
   end
 
   def save_as(filename)
-    raise "incomplete" unless complete?
+    raise IncompleteMediumError unless complete?
 
     data = parts.order(:sequence_number).pluck(:blob).reduce(&:+)
     File.open(filename, "wb") { |f| f.write(data) }
@@ -53,7 +59,7 @@ class Medium < ApplicationRecord
   private
 
   def s3_key
-    "audio-recorder/#{rid}"
+    "audio-recorder/#{rid}.mpeg"
   end
 
   def parts_in_sequence
@@ -61,13 +67,17 @@ class Medium < ApplicationRecord
   end
 
   def use_multipart_upload
-    description = { bucket: BUCKET, key: s3_key }
-    upload = s3client.create_multipart_upload(description)
-    description[:upload_id] = upload.upload_id
+    # TODO: use s3_object.initiate_multipart_upload
+    desc = { bucket: BUCKET, key: s3_key, content_type: "audio/mpeg" }
+    s3client = Aws::S3::Client.new(region: REGION)
+    upload = s3client.create_multipart_upload(desc)
+    desc[:upload_id] = upload.upload_id
 
     multiparts.each do |part|
-      s3client.upload_part(part.upload_description(description))
+      s3client.upload_part(part.upload_description(desc))
     end
-    s3client.complete_multipart_upload(description)
+    s3client.complete_multipart_upload(desc)
   end
+
+  class IncompleteMediumError < StandardError; end
 end
