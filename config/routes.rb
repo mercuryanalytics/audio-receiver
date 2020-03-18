@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   resources :media, only: %i[show update]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
-=begin
+=begin # rubocop:disable Style/BlockComments
                                Prefix Verb   URI Pattern                                                                              Controller#Action
                                medium GET    /media/:id(.:format)                                                                     media#show
                                       PATCH  /media/:id(.:format)                                                                     media#update
