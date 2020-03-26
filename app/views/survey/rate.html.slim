@@ -1,0 +1,16 @@
+/ big red button with negative label
+/ big green button with positive label
+p
+  ' As you watch the video on your computer, whenever you
+  span> agree with/enjoy
+  ' what you are seeing and hearing on the computer, click the
+  span> GREEN
+  ' button.
+    Whenever you
+  span> disagree with/dislike
+  ' what you are seeing and hearing, click the
+  span> RED
+  | button.
+p Click the &ldquo;Next&rdquo; button to proceed.
+
+= link_to "Next", survey_path(id: :show_code), class: :btn

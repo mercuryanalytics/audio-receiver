@@ -1,0 +1,64 @@
+body { font-family: Arial, Helvetica, sans-serif; text-align: left; padding: 2em; }
+iframe { width: 122vh; height: 111vh; }
+hr { color: #003366; background-color: #003366; height: 2px; }
+
+input[type=text] { border: solid 1px #003366; font-size: inherit; }
+
+@mixin background-gradient($color1, $color2) {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, $color1), color-stop(1, $color2));
+  background: -webkit-linear-gradient(top, $color1 5%, $color2 100%);
+  background: -moz-linear-gradient(top, $color1 5%, $color2 100%);
+  background: -ms-linear-gradient(top, $color1 5%, $color2 100%);
+  background: -o-linear-gradient(top, $color1 5%, $color2 100%);
+  background: linear-gradient(to bottom, $color1 5%, $color2 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1', endColorstr='$color2',GradientType=0);
+  background-color: $color1;
+}
+
+button[type=submit], .btn {
+  display: block;
+  color: #14396a;
+  @include background-gradient(#63b8ee, #468ccf);
+  box-shadow: inset 0px 1px 0px 0px #bee2f9;
+  border: 1px solid #3866a3;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 1.5em 0 0;
+  padding: 0.25em 1em;
+  font-size: 70%;
+  text-decoration: none;
+  text-align: center;
+  &:hover { @include background-gradient(#468ccf, #63b8ee); }
+  &:active { position: relative; top: 1px; }
+}
+a.btn {
+  display: inline-block;
+}
+
+.error { color: red; background-color: yellow; font-style: normal; font-weight: bold; text-transform: uppercase; }
+.hero { text-align: center; font-size: 300%; }
+
+@media only screen {
+  @media (max-device-width: 667px) { // phone
+    iframe { width: 95%; height: 700px; }
+    @media (orientation: portrait) {
+      body { font-size: 28pt; }
+    }
+    @media (orientation: landscape) {
+      body { font-size: 24pt; }
+    }
+  }
+
+  @media (min-device-width: 667px) and (max-device-width: 1024px) { // tablet
+    @media (orientation: portrait) {
+      body { font-size: 26pt; }
+    }
+    @media (orientation: landscape) {
+      body { font-size: 15pt; }
+    }
+  }
+
+  @media (min-width: 1025px) { // desktop rules here
+    body { font-size: 13pt; }
+  }
+}

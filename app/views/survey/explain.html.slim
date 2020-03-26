@@ -1,0 +1,9 @@
+p
+  | We&rsquo;re about to attempt to access the microphone on your cell phone.
+    You&rsquo;ll see a message asking you for permission that looks similar to this:
+p
+  = image_tag("cellphone_mockup_top")
+p When you see this message, click the &ldquo;Allow&rdquo; button or a similar button that grants permission for microphone access.
+p Click the &ldquo;Next&rdquo; button to proceed.
+
+= link_to "Next", survey_path(id: :no_permission), class: :btn
