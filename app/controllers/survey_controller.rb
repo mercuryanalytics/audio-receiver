@@ -2,7 +2,11 @@
 
 class SurveyController < ApplicationController
   def show
-    render params[:id] # plain: "Hello #{params[:id]}"
+    if params[:id] == "index" && params[:code]
+      render "explain"
+    else
+      render params[:id] # plain: "Hello #{params[:id]}"
+    end
   end
 
   def update
