@@ -1,9 +1,12 @@
 # frozen_string_literal: true
+require "auth_code_validator"
 
 class SurveyController < ApplicationController
   def show
-    if params[:id] == "index" && params[:code]
-      render "explain"
+    if params[:id] == "index" && params[:cell_id]
+      auth_code_validator = AuthCodeValidator.new(3557, 25)
+      render "explain" if auth_code_validator.compute_rid(params[:auth_code]).valid?
+      render "index"
     else
       render params[:id] # plain: "Hello #{params[:id]}"
     end
