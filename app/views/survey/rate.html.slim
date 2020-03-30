@@ -16,3 +16,16 @@ button class="rate pos" Positive
 p Click the &ldquo;Next&rdquo; button to proceed.
 
 = link_to "Next", survey_path(id: :show_code), class: :btn
+
+div class="modal"
+  div class="overlay"
+  div class="content"
+    p class="option-1" id="comp-then-mobile"
+      'Click the “Next” button on your computer to start playing the video and then click “START” below to begin rating
+    p class="option-2" id="mobile-then comp"
+      'Click the “START” button below to begin rating and then click the “Next” button on your computer to start playing the video
+    button class="btn close"
+      'START
+
+= javascript_pack_tag "modal"
+= javascript_pack_tag "random_option"
