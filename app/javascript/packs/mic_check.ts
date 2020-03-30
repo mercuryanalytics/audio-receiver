@@ -4,10 +4,10 @@ interface MercuryMicEvent extends Event {
 
 const micButton = document.querySelector("#mic_check") as HTMLLinkElement
 
-// const allowed = document.querySelector("#allowed")
-// const denied = document.querySelector("#denied")
-// allowed.addEventListener("click", () => micButton.dispatchEvent(new CustomEvent("mercury:permission", { detail: "allowed" })))
-// denied.addEventListener("click", () => micButton.dispatchEvent(new CustomEvent("mercury:permission", { detail: "denied" })))
+const allowed = document.querySelector("#allowed")
+const denied = document.querySelector("#denied")
+allowed.addEventListener("click", () => micButton.dispatchEvent(new CustomEvent("mercury:permission", { detail: "allowed" })))
+denied.addEventListener("click", () => micButton.dispatchEvent(new CustomEvent("mercury:permission", { detail: "denied" })))
 
 const micEvent = () => new Promise((resolve, reject) => {
   micButton.addEventListener("mercury:permission", (event: MercuryMicEvent) => {

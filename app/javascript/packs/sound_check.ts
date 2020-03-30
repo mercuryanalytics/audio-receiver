@@ -11,10 +11,16 @@ const soundEvent = () => new Promise((resolve, reject) => {
 })
 
 const soundCheck = async () => {
+  console.log("Awaiting sound check")
   try {
     await soundEvent()
-    window.location.href = "/survey/rate"
+    window.location.href = "/survey/instructions"
   } catch (err) {
     window.location.href = "/survey/no_sound"
   }
 }
+
+soundCheck()
+
+document.querySelector("#pass").addEventListener("click", () => document.dispatchEvent(new CustomEvent("mercury:sound", { detail: "pass" })))
+document.querySelector("#fail").addEventListener("click", () => document.dispatchEvent(new CustomEvent("mercury:sound", { detail: "fail" })))
