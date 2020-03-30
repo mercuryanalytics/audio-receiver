@@ -1,4 +1,3 @@
-/* = javascript_include_tag "mic_check.ts" */
 p
   | We&rsquo;re about to attempt to access the microphone on your cell phone.
     You&rsquo;ll see a message asking you for permission that looks similar to this:
@@ -10,3 +9,4 @@ p Click the &ldquo;Next&rdquo; button to proceed.
 button id="allowed" Allowed
 button id="denied" Denied
 = link_to "Next", survey_path(id: :mic_check), class: :btn, id: :mic_check
+= javascript_pack_tag 'mic_check'
