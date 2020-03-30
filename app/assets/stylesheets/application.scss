@@ -35,32 +35,43 @@ a.btn {
   display: inline-block;
 }
 
-button.rate {
-  height: 2.5em;
-  width: 7.5em;
-  display: inline-block;
-  border-radius: 6px;
-  cursor: pointer;
-  margin: 0.75em;
-  padding: 0.25em 1em;
-  font-size: 120%;
-  text-decoration: none;
-  text-align: center;
-  &:active { position: relative; top: 1px; outline: none; }
-  &:focus { outline: none; }
-  &.pos {
-    color: #333300;
-    @include background-gradient(#009933, #006633);
-    box-shadow: inset 0px 1px 0px 0px #00cc66;
-    border: 1px solid #006600;
-    &:hover { @include background-gradient(#006633, #009933); }
+.rate {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  button {
+    display: inline-block;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 2em 0.75em;
+    font-size: 120%;
+    text-decoration: none;
+    text-align: center;
+    &:active { position: relative; top: 1px; outline: none; }
+    &:focus { outline: none; }
+    &.pos {
+      color: #333300;
+      @include background-gradient(#009933, #006633);
+      box-shadow: inset 0px 1px 0px 0px #00cc66;
+      border: 1px solid #006600;
+      &:hover { @include background-gradient(#006633, #009933); }
+    }
+    &.neg {
+      color: #330000;
+      @include background-gradient(#ff0000, #990033);
+      box-shadow: inset 0px 1px 0px 0px #ff3333;
+      border: 1px solid #990000;
+      &:hover { @include background-gradient(#990033, #ff0000); }
+    }
   }
-  &.neg {
-    color: #330000;
-    @include background-gradient(#ff0000, #990033);
-    box-shadow: inset 0px 1px 0px 0px #ff3333;
-    border: 1px solid #990000;
-    &:hover { @include background-gradient(#990033, #ff0000); }
+
+  time {
+    display: inline-block;
+    height: 100%;
+    margin: 1em auto;
+    padding: 1em;
+    font-size: 200%;
+    font-weight: bold;
   }
 }
 

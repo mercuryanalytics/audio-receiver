@@ -9,8 +9,9 @@ p
   ' what you are seeing and hearing, click the
   span> RED
   | button.
-button class="rate neg" Strongly Disagree
-button class="rate pos" Positive Agree
+
+= render "controls"
+
 p Click the &ldquo;Next&rdquo; button to proceed.
 
 = link_to "Next", survey_path(id: :show_code), class: :btn
