@@ -6,8 +6,12 @@ class SurveyController < ApplicationController
   def show
     if params[:id] == 'index' && params[:cell_id]
       auth_code_validator = AuthCodeValidator.new(3557, 25)
-      render 'explain' if auth_code_validator.compute_rid(params[:auth_code]).valid?
-      render 'index'
+      if auth_code_validator.compute_rid(params[:auth_code]).valid?
+        session[:rid] = auth_code_validator.compute_rid(params[:auth_code])
+        render 'explain'
+      else
+        render 'index'
+      end
     else
       render params[:id] # plain: "Hello #{params[:id]}"
     end
