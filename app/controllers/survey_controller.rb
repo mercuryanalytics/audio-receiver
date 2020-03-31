@@ -4,19 +4,23 @@ require 'auth_code_validator'
 
 class SurveyController < ApplicationController
   def show
-    if params[:id] == 'index' || params[:id] == 'explain'
-      if valid?(params[:auth_code])
-        render 'explain'
-      else
-        render 'index'
-      end
+    if session[:rid].nil?
+      render 'index'
     else
       render params[:id]
     end
   end
 
   def update
-    redirect_to survey_path(id: params[:id])
+    if params[:id] == 'index' || params[:id] == 'explain'
+      if valid?(params[:auth_code])
+        redirect_to survey_path(id: :explain)
+      else
+        redirect_to survey_path(id: :index)
+      end
+    else
+      redirect_to survey_path(id: params[:id])
+    end
   end
 
   # index -- asks for authorization code

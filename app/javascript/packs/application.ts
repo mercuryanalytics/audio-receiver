@@ -1,3 +1,5 @@
+import "mic_check";
+import "record_audio";
 import "../mic_check_ui"
 import "../modal"
 
