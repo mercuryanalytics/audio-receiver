@@ -4,22 +4,19 @@ require 'auth_code_validator'
 
 class SurveyController < ApplicationController
   def show
-    auth_code = params[:auth_code]
-    if params[:id] == 'index' && params[:cell_id]
-      auth_code_validator = AuthCodeValidator.new(3557, 25)
-      if auth_code_validator.valid?(auth_code)
-        session[:rid] = auth_code_validator.compute_rid(auth_code) if auth_code
+    if params[:id] == 'index' || params[:id] == 'explain'
+      if valid?(params[:auth_code])
         render 'explain'
       else
         render 'index'
       end
     else
-      render params[:id] # plain: "Hello #{params[:id]}"
+      render params[:id]
     end
   end
 
   def update
-    redirect_to survey_path(id: params[:id]) # plain: "Hello #{params[:id]}"
+    redirect_to survey_path(id: params[:id])
   end
 
   # index -- asks for authorization code
@@ -32,4 +29,16 @@ class SurveyController < ApplicationController
   # show_code -- gives code to enter at survey
   # rate -- next on both
   # thankyou -- thanks for rating
+
+  private
+
+  def valid?(auth_code)
+    auth_code_validator = AuthCodeValidator.new(3557, 25)
+    if auth_code && auth_code_validator.valid?(auth_code)
+      session[:rid] = auth_code_validator.compute_rid(auth_code) if auth_code
+      return true
+    end
+    @flag = true
+    false
+  end
 end
