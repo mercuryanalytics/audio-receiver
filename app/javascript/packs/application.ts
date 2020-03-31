@@ -1,4 +1,5 @@
-console.log("ts")
+import "mic_check";
+import "record_audio";
 
 // Uncomment to copy all static images under ../images to the output
 // folder and reference them with the image_pack_tag helper in views
