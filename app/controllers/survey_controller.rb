@@ -4,10 +4,11 @@ require 'auth_code_validator'
 
 class SurveyController < ApplicationController
   def show
+    auth_code = params[:auth_code]
     if params[:id] == 'index' && params[:cell_id]
       auth_code_validator = AuthCodeValidator.new(3557, 25)
-      if auth_code_validator.compute_rid(params[:auth_code]).valid?
-        session[:rid] = auth_code_validator.compute_rid(params[:auth_code])
+      if auth_code_validator.valid?(auth_code)
+        session[:rid] = auth_code_validator.compute_rid(auth_code) if auth_code
         render 'explain'
       else
         render 'index'
