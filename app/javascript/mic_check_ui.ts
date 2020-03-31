@@ -13,18 +13,6 @@ const micCheckUi = () => {
     }
 
     micButton.addEventListener("mic_check", (event: MicEvent) => eventMap[event.detail]())
-
-    const getAudioStream = () =>
-    navigator.mediaDevices.getUserMedia({
-      video: false,
-      audio: { channelCount: { exact: 1 } }
-    });
-
-    micButton.addEventListener("click", async (e) => {
-      e.preventDefault()
-      await getAudioStream()
-      micButton.dispatchEvent(new CustomEvent("mic_check", {detail: "success"}))
-    })
   }
 }
 
