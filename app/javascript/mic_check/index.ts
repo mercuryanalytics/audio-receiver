@@ -8,8 +8,9 @@ import {
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.getElementById("mic_check");
   if (button)
-    addEventListener("click", async () => {
+    addEventListener("click", async (e) => {
       try {
+        e.preventDefault()
         const stream = await getAudioStream();
         // FIXME: make it so we can cancel the timer if the mic check succeeds (AbortSignal?)
         countdown(
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
             new CustomEvent("mic_check", { detail: "no_sound" })
           );
         } else if (e.name === "NotAllowedError" || e.name === "SecurityError") {
+          console.log("no_permission", e)
           button.dispatchEvent(
             new CustomEvent("mic_check", { detail: "no_permission" })
           );
