@@ -40,7 +40,7 @@ class AuthCodeValidator
     sum = check_sum(codes)
     codes.reverse!
     codes << (N - 1 - (sum % N))
-    codes.map(&:chr).join('')
+    codes.map { |cp| (cp + A).chr }.join('')
   end
 
   private
@@ -55,7 +55,7 @@ class AuthCodeValidator
       t, t_n = [t_n, t - q * t_n]
       r, r_n = [r_n, r - q * r_n]
     end
-    return t + m if t.negative?
+    return t + n if t.negative?
 
     t
   end

@@ -6,6 +6,10 @@ class SurveyController < ApplicationController
   def show
     if session[:rid].nil?
       render 'index'
+    elsif params[:id] == 'show_code'
+      auth_code_validator = AuthCodeValidator.new(3593, 25)
+      @code = auth_code_validator.compute_auth_code(session[:rid])
+      render 'show_code'
     else
       render params[:id]
     end
