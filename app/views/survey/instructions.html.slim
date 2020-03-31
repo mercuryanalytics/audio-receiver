@@ -1,5 +1,17 @@
 p
-  | We&rsquo;re all set!
-    Now let&rsquo;s teach you how to rate the video.
+  ' As you watch the video on your computer, whenever you
+  span> agree with/enjoy
+  ' what you are seeing and hearing on the computer, click the
+  span> GREEN
+  ' button.
+    Whenever you
+  span> disagree with/dislike
+  ' what you are seeing and hearing, click the
+  span> RED
+  | button.
 
-= link_to "Next", survey_path(id: :rate), class: :btn
+= render "controls"
+
+p Click the &ldquo;Next&rdquo; button to proceed.
+
+= link_to "Next", survey_path(id: :show_code), class: :btn

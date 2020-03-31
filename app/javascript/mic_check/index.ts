@@ -8,8 +8,9 @@ import {
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.getElementById("mic_check");
   if (button)
-    addEventListener("click", async () => {
+    addEventListener("click", async (e) => {
       try {
+        e.preventDefault()
         const stream = await getAudioStream();
         // FIXME: make it so we can cancel the timer if the mic check succeeds (AbortSignal?)
         countdown(

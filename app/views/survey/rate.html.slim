@@ -1,16 +1,11 @@
-/ big red button with negative label
-/ big green button with positive label
-p
-  ' As you watch the video on your computer, whenever you
-  span> agree with/enjoy
-  ' what you are seeing and hearing on the computer, click the
-  span> GREEN
-  ' button.
-    Whenever you
-  span> disagree with/dislike
-  ' what you are seeing and hearing, click the
-  span> RED
-  | button.
-p Click the &ldquo;Next&rdquo; button to proceed.
+= render "controls"
 
-= link_to "Next", survey_path(id: :show_code), class: :btn
+div class="modal"
+  div class="overlay"
+  div class="content"
+    p class="option-1" id="comp-then-mobile"
+      'Click the “Next” button on your computer to start playing the video and then click “START” below to begin rating
+    p class="option-2" id="mobile-then comp"
+      'Click the “START” button below to begin rating and then click the “Next” button on your computer to start playing the video
+    button class="btn close" id="record"
+      'START
