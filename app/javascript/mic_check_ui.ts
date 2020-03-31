@@ -6,7 +6,6 @@ const micCheckUi = () => {
 
   if (micButton) {
     micButton.addEventListener("mic_check", (event: MicEvent) => {
-      console.log("event", event.detail)
       let target: string = event.detail
       if (target === "success") target = micButton.href
       window.location.href = target

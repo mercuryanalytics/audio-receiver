@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
             new CustomEvent("mic_check", { detail: "no_sound" })
           );
         } else if (e.name === "NotAllowedError" || e.name === "SecurityError") {
-          console.log("no_permission", e)
           button.dispatchEvent(
             new CustomEvent("mic_check", { detail: "no_permission" })
           );
