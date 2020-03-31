@@ -27,7 +27,10 @@ export default class StreamToServer implements UnderlyingSink {
       headers: {
         Accept: "application/json",
         "Content-Type": "audio/mpeg",
-        "X-Sequence-Number": (this.seq++).toString()
+        "X-Sequence-Number": (this.seq++).toString(),
+        "X-CSRF-Token": document.querySelector<HTMLMetaElement>(
+          "meta[name=csrf-token]"
+        ).content
       },
       body
     });
