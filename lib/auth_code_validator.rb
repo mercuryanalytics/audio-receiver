@@ -19,6 +19,7 @@ class AuthCodeValidator
       acc + (addend / n).floor + addend % n
     end
     return false if check != n - 1 - (sum % n)
+
     true
   end
 
