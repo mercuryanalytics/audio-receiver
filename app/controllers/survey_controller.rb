@@ -4,6 +4,7 @@ require 'auth_code_validator'
 
 class SurveyController < ApplicationController
   def show
+    @invalid = params[:invalid]
     if session[:rid].nil?
       render 'index'
     elsif params[:id] == 'show_code'
@@ -20,7 +21,7 @@ class SurveyController < ApplicationController
       if valid?(params[:auth_code])
         redirect_to survey_path(id: :explain)
       else
-        redirect_to survey_path(id: :index)
+        redirect_to survey_path(id: :index, invalid: "true")
       end
     else
       redirect_to survey_path(id: params[:id])
@@ -31,7 +32,7 @@ class SurveyController < ApplicationController
   # explain -- next to check mic
   # no_permission -- no mic permission
   # mic_check -- perform mic check
-  # no_sound -- no sound
+  # no_audio -- no audio above threshold
   # all_set -- next to learn to rate
   # instructions -- explains the buttons
   # show_code -- gives code to enter at survey
@@ -46,7 +47,6 @@ class SurveyController < ApplicationController
       session[:rid] = auth_code_validator.compute_rid(auth_code) if auth_code
       return true
     end
-    @flag = true
     false
   end
 end
