@@ -1,19 +1,22 @@
+# frozen_string_literal: true
+
+# rubocop:disable Naming/MethodParameterName
 class AuthCodeValidator
-  attr_accessor :c, :p, :n
+  attr_accessor :c, :p
 
   A = 'A'.ord
+  N = 26
 
   def initialize(c, p)
     @c = c
     @p = p
-    @n = p + 1
-    raise ArgumentError, 'Params are not coprime' if c.gcd(n * n * n) != 1
+    raise ArgumentError, 'Params are not coprime' if c.gcd(N * N * N) != 1
   end
 
   def valid?(auth_code)
     codes = auth_code.upcase.codepoints.map { |cp| cp - A }
     check = codes.pop
-    return false if check != n - 1 - (check_sum(codes) % n)
+    return false if check != N - 1 - (check_sum(codes) % N)
 
     true
   end
@@ -21,22 +24,22 @@ class AuthCodeValidator
   def compute_rid(auth_code)
     codes = auth_code.upcase.codepoints.map { |cp| cp - A }
     codes.pop
-    hash = codes.reduce { |acc, cp| acc * n + cp }
+    hash = codes.reduce { |acc, cp| acc * N + cp }
     codes.reverse!
-    mdiv(hash - p, c, n * n * n)
+    mdiv(hash - p, c, N * N * N)
   end
 
   def compute_auth_code(rid)
-    hash = (rid * c + p) % (n * n * n)
+    hash = (rid * c + p) % (N * N * N)
 
     codes = []
     3.times do
-      codes << hash % n
-      hash /= n
+      codes << hash % N
+      hash /= N
     end
     sum = check_sum(codes)
     codes.reverse!
-    codes << (n - 1 - (sum % n))
+    codes << (N - 1 - (sum % N))
     codes.map(&:chr).join('')
   end
 
@@ -67,7 +70,8 @@ class AuthCodeValidator
     codes.each_with_index.reduce(0) do |acc, (cp, i)|
       factor = 2 - (i % 2)
       addend = factor * cp
-      acc + (addend / n).floor + addend % n
+      acc + (addend / N).floor + addend % N
     end
   end
 end
+# rubocop:enable Naming/MethodParameterName
