@@ -5,7 +5,7 @@ require 'auth_code_validator'
 class SurveyController < ApplicationController
   def show
     @invalid = params[:invalid]
-    session[:cell_id] = params[:cell_id] if params[:cell_id] && !session[:cell_id]
+    session[:cell] = params[:cell] if params[:cell] && !session[:cell]
     if session[:rid].nil?
       render 'index'
     elsif params[:id] == 'show_code'
