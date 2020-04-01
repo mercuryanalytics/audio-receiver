@@ -5,3 +5,7 @@ declare module "lamejs" {
     flush(): Int8Array;
   }
 }
+
+interface String {
+  padStart(targetLength: number, padString?: string): string;
+}
