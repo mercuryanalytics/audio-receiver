@@ -5,6 +5,7 @@ require 'auth_code_validator'
 class SurveyController < ApplicationController
   def show
     @invalid = params[:invalid]
+    session[:cell] = params[:cell] if params[:cell] && !session[:cell]
     if session[:rid].nil?
       render 'index'
     elsif params[:id] == 'show_code'
@@ -17,7 +18,7 @@ class SurveyController < ApplicationController
   end
 
   def update
-    if params[:id] == 'index' || params[:id] == 'explain'
+    if params[:id] == 'explain'
       if valid?(params[:auth_code])
         redirect_to survey_path(id: :explain)
       else
