@@ -1,11 +1,17 @@
 div class="rate"
-  button class="neg"
-    'Strongly
-    br
-    'Disagree
-  time datetime="PT0M0S" id="countdown"
-    '00:00
-  button class="pos"
-    'Strongly
-    br
-    'Agree
+    button class="neg"
+      'Strongly
+      br
+      - if session[:cell] == 'egog'
+        'Dislike
+      - else
+        'Disagree
+    time datetime="PT0M0S" id="countdown"
+      '00:00
+    button class="pos"
+      'Strongly
+      br
+      - if session[:cell] == 'egog'
+        'Enjoy
+      - else
+        'Agree
