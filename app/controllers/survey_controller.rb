@@ -3,70 +3,53 @@
 require 'auth_code_validator'
 
 class SurveyController < ApplicationController
+  before_action :validate_auth_code, if: -> { params[:id] == "index" && params.key?(:code) }
   before_action :check_rid
 
   def show
-    @invalid = params[:invalid]
-    session[:cell] = params[:cell] if params[:cell] && !session[:cell]
-
-    case params[:id]
-    when 'show_code'
-      auth_code_validator = AuthCodeValidator.new(3593, 25)
-      @code = auth_code_validator.compute_auth_code(session[:rid])
-      render 'show_code'
-    when 'no_sound'
-      session[:rid] = 0
-      redirect_to survey_path(id: :show_code)
-    else
-      render params[:id]
-    end
+    session[:cell] = params[:cell] if params[:cell].present?
+    render params[:id]
   end
 
   def update
-    if params[:id] == 'explain'
-      if valid?(params[:code])
-        redirect_to survey_path(id: :explain)
-      else
-        redirect_to survey_path(id: :index, invalid: 'true')
-      end
-    else
-      redirect_to survey_path(id: params[:id])
-    end
+    render params[:id]
   end
-
-  # index -- asks for authorization code
-  # explain -- next to check mic
-  # no_permission -- no mic permission
-  # no_audio -- redirect to show_code with rid = 0
-  # no_sound -- redirect to show_code with rid = 0
-  # all_set -- next to learn to rate
-  # instructions -- explains the buttons
-  # show_code -- gives code to enter at survey
-  # rate -- next on both
-  # thankyou -- thanks for rating
 
   private
 
-  def valid?(auth_code)
-    auth_code_validator = AuthCodeValidator.new(3557, 25)
-    if auth_code && auth_code_validator.valid?(auth_code)
-      session[:rid] = auth_code_validator.compute_rid(auth_code)
-      Rails.logger.info(request.headers['User-Agent'])
-      return true
-    end
-    false
+  def check_rid
+    Rails.logger.debug "In check_rid #{session[:rid].inspect}"
+    return if params[:id] == "index" || session[:rid].present?
+
+    Rails.logger.info "No rid in session"
+    redirect_to index_path
   end
 
-  def check_rid
-    Rails.logger.info "check_rid code: #{params[:code].inspect}, rid: #{session[:rid].inspect}"
-    if valid?(params[:code])
-      Rails.logger.info "valid code (explain)"
-      redirect_to survey_path(id: :explain) # need window.location.href to be correct
-    elsif session[:rid].nil?
-      Rails.logger.info "no id in session"
-      render 'index'
+  def validate_auth_code
+    Rails.logger.debug "In validating_auth_code"
+    session[:rid] = nil
+    auth_code_validator = AuthCodeValidator.new(3557, 25)
+    auth_code = params[:code]
+    if auth_code_validator.valid?(auth_code)
+      session[:rid] = auth_code_validator.compute_rid(auth_code)
+      Rails.logger.info "User-Agent: #{request.headers['User-Agent']}"
+      redirect_to survey_path(id: :explain)
     else
-      Rails.logger.info "valid rid"
+      Rails.logger.info "Invalid code"
+      redirect_to index_path, notice: "Invalid verification code—please try again"
     end
   end
+
+  def browser_code
+    @browser_code ||= begin
+      auth_code_validator = AuthCodeValidator.new(3593, 25)
+      auth_code_validator.compute_auth_code(session[:rid])
+    end
+  end
+  helper_method :browser_code
+
+  def cell_id
+    ActiveSupport::StringInquirer.new(session[:cell] || "ted")
+  end
+  helper_method :cell_id
 end

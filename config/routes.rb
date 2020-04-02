@@ -4,17 +4,20 @@ Rails.application.routes.draw do
   resources :media, only: %i[show update]
   get "survey/:id", to: "survey#show", as: :survey
   post "survey/:id", to: "survey#update"
-  get "survey", to: "survey#show", id: :index
-  post "survey", to: "survey#update", id: :index
+  get "survey", to: "survey#show", id: "index", as: :index
+  post "survey", to: "survey#update", id: "index"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
 =begin # rubocop:disable Style/BlockComments
+warning ../../../package.json: No license fiel:d
                                Prefix Verb   URI Pattern                                                                              Controller#Action
                                medium GET    /media/:id(.:format)                                                                     media#show
                                       PATCH  /media/:id(.:format)                                                                     media#update
                                       PUT    /media/:id(.:format)                                                                     media#update
                                survey GET    /survey/:id(.:format)                                                                    survey#show
-                                      GET    /survey(.:format)                                                                        survey#show
+                                      POST   /survey/:id(.:format)                                                                    survey#update
+                                index GET    /survey(.:format)                                                                        survey#show {:id=>:index}
+                                      POST   /survey(.:format)                                                                        survey#update {:id=>:index}
         rails_mandrill_inbound_emails POST   /rails/action_mailbox/mandrill/inbound_emails(.:format)                                  action_mailbox/ingresses/mandrill/inbound_emails#create
         rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                  action_mailbox/ingresses/postmark/inbound_emails#create
            rails_relay_inbound_emails POST   /rails/action_mailbox/relay/inbound_emails(.:format)                                     action_mailbox/ingresses/relay/inbound_emails#create

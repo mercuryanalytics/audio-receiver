@@ -4,7 +4,7 @@ p
   'Click the &ldquo;Next&rdquo; button on your computer and enter this verification code:
 p.hero
   span
-    = @code
+    = browser_code
 
 - unless session[:rid] == 0
   = link_to "Next", survey_path(id: :rate), class: :btn

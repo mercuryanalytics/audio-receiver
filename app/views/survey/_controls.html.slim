@@ -1,17 +1,16 @@
-div class="rate"
-    button class="neg"
+div.rate
+    button.neg
       'Strongly
       br
-      - if session[:cell] == 'egog'
+      - if cell_id.egog?
         'Dislike
       - else
         'Disagree
-    time datetime="PT0M0S" id="countdown"
-      '00:00
-    button class="pos"
+    time#countdown
+    button.pos
       'Strongly
       br
-      - if session[:cell] == 'egog'
+      - if cell_id.egog?
         'Enjoy
       - else
         'Agree

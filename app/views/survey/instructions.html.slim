@@ -1,7 +1,7 @@
 p
   ' As you watch the video on your computer, whenever you
   span
-    - if session[:cell] == 'egog'
+    - if cell_id.egog?
       'enjoy
     - else
       'agree with
@@ -10,7 +10,7 @@ p
   ' button.
     Whenever you
   span
-    - if session[:cell] == 'egog'
+    - if cell_id.egog?
       'dislike
     - else
       'disagree with

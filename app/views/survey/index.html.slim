@@ -1,8 +1,8 @@
 / inbound link includes cell (ted talk, debate, ellen) and rid
 
-= form_tag(survey_path(id: :explain))
-  - if @invalid
-    p.error Invalid verification code&mdash;please try again
+= form_tag(survey_path(id: :index))
+  p.error
+    = flash.notice
   p Thank you for participating
   p Please enter the 4-character verification code you received from the survey.
   = text_field_tag :code

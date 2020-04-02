@@ -1,4 +1,4 @@
-div id="pretest"
+div#pretest
   p
     | Once you click the next button below, we will attempt to access the microphone on your cell phone.
       When we do, you will see a message asking you for permission that looks similar to this:
@@ -8,9 +8,7 @@ div id="pretest"
   p You’ll then be asked to SPEAK UP so we can make sure your microphone is working.
   p Click the &ldquo;Next&rdquo; button to proceed.
 
-div id="testing"
+div#testing
   p SPEAK UP so we can test your microphone!
-
-time id="countdown"
 
 = link_to "Next", survey_path(id: :all_set), class: :btn, id: :mic_check
