@@ -1,8 +1,8 @@
 const recordSoundUi = () => {
-  const recordButton = document.getElementById("#record")
+  const recordButton = document.getElementById("record")
 
   if (recordButton) {
-    recordButton.addEventListener("complete", () => window.location.href = "thankyou")
+    recordButton.addEventListener("completed", () => window.location.href = "thankyou")
   }
 }
 

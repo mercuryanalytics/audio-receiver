@@ -1,6 +1,7 @@
 import "mic_check";
 import "record_audio";
 import "mic_check_ui"
+import "record_audio_ui";
 import "modal"
 
 // Uncomment to copy all static images under ../images to the output
