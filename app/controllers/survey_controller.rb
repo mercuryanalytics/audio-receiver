@@ -32,7 +32,7 @@ class SurveyController < ApplicationController
     auth_code = params[:code]
     if auth_code_validator.valid?(auth_code)
       session[:rid] = auth_code_validator.compute_rid(auth_code)
-      Rails.logger.info "User-Agent: #{request.headers['User-Agent']}"
+      Rails.logger.info "User-Agent (#{session[:rid]}): #{request.headers['User-Agent']}"
       redirect_to survey_path(id: :explain)
     else
       Rails.logger.info "Invalid code"
