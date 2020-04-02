@@ -6,7 +6,9 @@ class SurveyController < ApplicationController
   def show
     @invalid = params[:invalid]
     session[:cell] = params[:cell] if params[:cell] && !session[:cell]
-    if session[:rid].nil?
+    if valid?(params[:code])
+      render 'explain'
+    elsif session[:rid].nil?
       render 'index'
     elsif params[:id] == 'show_code'
       auth_code_validator = AuthCodeValidator.new(3593, 25)
@@ -22,7 +24,7 @@ class SurveyController < ApplicationController
       if valid?(params[:auth_code])
         redirect_to survey_path(id: :explain)
       else
-        redirect_to survey_path(id: :index, invalid: "true")
+        redirect_to survey_path(id: :index, invalid: 'true')
       end
     else
       redirect_to survey_path(id: params[:id])
