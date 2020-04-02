@@ -58,6 +58,7 @@ class SurveyController < ApplicationController
   end
 
   def check_rid
+    Rails.logger.info "check_rid code: #{params[:code].inspect}, rid: #{session[:rid].inspect}"
     if valid?(params[:code])
       Rails.logger.info "valid code (explain)"
       redirect_to survey_path(id: :explain) # need window.location.href to be correct
