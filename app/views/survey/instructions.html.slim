@@ -1,11 +1,19 @@
 p
   ' As you watch the video on your computer, whenever you
-  span> agree with/enjoy
+  span
+    - if session[:cell] == 'egog'
+      'enjoy
+    - else
+      'agree with
   ' what you are seeing and hearing on the computer, click the
   span> GREEN
   ' button.
     Whenever you
-  span> disagree with/dislike
+  span
+    - if session[:cell] == 'egog'
+      'dislike
+    - else
+      'disagree with
   ' what you are seeing and hearing, click the
   span> RED
   | button.
