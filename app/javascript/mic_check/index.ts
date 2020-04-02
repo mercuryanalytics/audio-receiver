@@ -8,7 +8,7 @@ import {
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.getElementById("mic_check");
   if (button)
-    addEventListener("click", async (e) => {
+    button.addEventListener("click", async (e) => {
       try {
         e.preventDefault()
         button.style.display = "none"
