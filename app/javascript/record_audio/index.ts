@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const rid =
     document.querySelector<HTMLMetaElement>("meta[name=rid]").content || "test";
   if (button)
-    addEventListener("click", async () => {
+    button.addEventListener("click", async () => {
       const stream = await getAudioStream();
       countdown(
         document.querySelector<HTMLTimeElement>("#countdown"),
