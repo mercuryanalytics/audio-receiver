@@ -59,9 +59,13 @@ class SurveyController < ApplicationController
 
   def check_rid
     if valid?(params[:code])
+      Rails.logger.info "valid code (explain)"
       redirect_to survey_path(id: :explain) # need window.location.href to be correct
     elsif session[:rid].nil?
+      Rails.logger.info "no id in session"
       render 'index'
+    else
+      Rails.logger.info "valid rid"
     end
   end
 end
