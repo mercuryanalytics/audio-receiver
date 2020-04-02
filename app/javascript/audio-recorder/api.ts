@@ -17,6 +17,13 @@ export const endTracks = (stream: MediaStream) =>
     track.dispatchEvent(new MediaStreamTrackEvent("ended", { track }));
   });
 
+class MicrophoneCheckError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "MicrophoneCheckError";
+  }
+}
+
 export const checkMicrophone = async (stream: MediaStream) => {
   const reader = new ReadableAudioStream(stream).getReader();
   const finish = Date.now() + 15000;
@@ -27,7 +34,7 @@ export const checkMicrophone = async (stream: MediaStream) => {
     if (value.some(x => Math.abs(x) > 0.05)) return;
   }
   reader.cancel("silence");
-  throw new Error("No audio");
+  throw new MicrophoneCheckError("No audio");
 };
 
 export const recordSample = (stream: MediaStream, rid: string) => {
