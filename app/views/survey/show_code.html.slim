@@ -1,8 +1,10 @@
 p
-  | You&rsquo;re now ready to begin rating the video on your computer.
-    Click the &ldquo;Next&rdquo; button on your computer and enter this verification code:
+  - unless session[:rid] == 0
+    | You&rsquo;re now ready to begin rating the video on your computer.&nbsp;
+  'Click the &ldquo;Next&rdquo; button on your computer and enter this verification code:
 p.hero
   span
     = @code
 
-= link_to "Next", survey_path(id: :rate), class: :btn
+- unless session[:rid] == 0
+  = link_to "Next", survey_path(id: :rate), class: :btn
