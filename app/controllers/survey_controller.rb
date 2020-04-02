@@ -14,6 +14,9 @@ class SurveyController < ApplicationController
       auth_code_validator = AuthCodeValidator.new(3593, 25)
       @code = auth_code_validator.compute_auth_code(session[:rid])
       render 'show_code'
+    elsif params[:id] == 'no_sound'
+      session[:rid] = 0
+      redirect_to survey_path(id: :show_code)
     else
       render params[:id]
     end
@@ -36,6 +39,7 @@ class SurveyController < ApplicationController
   # no_permission -- no mic permission
   # mic_check -- perform mic check
   # no_audio -- no audio above threshold
+  # no_sound -- no audio equipment
   # all_set -- next to learn to rate
   # instructions -- explains the buttons
   # show_code -- gives code to enter at survey
