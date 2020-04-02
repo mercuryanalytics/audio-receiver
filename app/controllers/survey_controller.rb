@@ -24,7 +24,7 @@ class SurveyController < ApplicationController
 
   def update
     if params[:id] == 'explain'
-      if valid?(params[:auth_code])
+      if valid?(params[:code])
         redirect_to survey_path(id: :explain)
       else
         redirect_to survey_path(id: :index, invalid: 'true')
