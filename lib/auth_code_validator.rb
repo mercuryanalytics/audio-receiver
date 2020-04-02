@@ -14,11 +14,12 @@ class AuthCodeValidator
   end
 
   def valid?(auth_code)
+    Rails.logger.debug "validating #{auth_code.inspect}"
     codes = auth_code.upcase.codepoints.map { |cp| cp - A }
     check = codes.pop
-    return false if check != N - 1 - (check_sum(codes) % N)
-
-    true
+    got = N - 1 - (check_sum(codes) % N)
+    Rails.logger.debug "check #{check.inspect} != #{got.inspect}"
+    check == N - 1 - (check_sum(codes) % N)
   end
 
   def compute_rid(auth_code)
