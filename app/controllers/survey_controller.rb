@@ -29,7 +29,7 @@ class SurveyController < ApplicationController
     Rails.logger.debug "In validating_auth_code"
     session[:rid] = nil
     auth_code_validator = AuthCodeValidator.new(3557, 25)
-    auth_code = params[:code]
+    auth_code = params[:code].strip
     if auth_code_validator.valid?(auth_code)
       session[:rid] = auth_code_validator.compute_rid(auth_code)
       Rails.logger.info "User-Agent (#{session[:rid]}): #{request.headers['User-Agent']}"
