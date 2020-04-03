@@ -8,7 +8,12 @@ import StreamToServer from "./stream_to_server";
 export const getAudioStream = () =>
   navigator.mediaDevices.getUserMedia({
     video: false,
-    audio: { channelCount: { exact: 1 } }
+    audio: {
+      channelCount: { exact: 1 },
+      autoGainControl: { ideal: false },
+      echoCancellation: { ideal: false },
+      noiseSuppression: { ideal: false }
+    }
   });
 
 export const endTracks = (stream: MediaStream) =>
