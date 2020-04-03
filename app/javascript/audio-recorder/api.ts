@@ -44,7 +44,7 @@ export const checkMicrophone = async (stream: MediaStream) => {
 };
 
 export const recordSample = (stream: MediaStream, rid: string) => {
-  const { sampleRate = 44100 } = stream.getTracks()[0].getSettings();
+  const { sampleRate } = stream.getTracks()[0].getSettings();
   if (!sampleRate) throw Error("Audio sample rate is undefined");
 
   return new ReadableAudioStream(stream, 16384)
