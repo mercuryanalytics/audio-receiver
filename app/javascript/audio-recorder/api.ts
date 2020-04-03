@@ -1,4 +1,5 @@
 import "web-streams-polyfill";
+import "./getusermedia-polyfill";
 
 import ReadableAudioStream from "./capture_audio";
 import TransformMP3Stream from "./record_audio";
@@ -23,7 +24,7 @@ export const endTracks = (stream: MediaStream) =>
   });
 
 class MicrophoneCheckError extends Error {
-  constructor(message) {
+  constructor(message: string) {
     super(message);
     this.name = "MicrophoneCheckError";
   }
