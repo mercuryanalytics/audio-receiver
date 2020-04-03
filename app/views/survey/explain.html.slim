@@ -1,14 +1,14 @@
 div#pretest
   p
-    | Once you click the next button below, we will attempt to access the microphone on your cell phone.
+    | Once you click the “Next” button below, we will attempt to access the microphone.
       When we do, you will see a message asking you for permission that looks similar to this:
   p
     = image_tag("cellphone_mockup_top.png", {id: 'cellphone_mockup_top'})
-  p When you see this message, click the &ldquo;Allow&rdquo; button or a similar button that grants permission for microphone access.
+  p When you see this message, click the “Allow” button or a similar button that grants permission for microphone access.
   p You’ll then be asked to SPEAK UP so we can make sure your microphone is working.
-  p Click the &ldquo;Next&rdquo; button to proceed.
+  p Click the “Next” button to proceed.
 
 div#testing
-  p SPEAK UP so we can test your microphone!
+  p <strong><em>SPEAK UP</em></strong> so we can test your microphone!
 
 = link_to "Next", survey_path(id: :all_set), class: :btn, id: :mic_check
