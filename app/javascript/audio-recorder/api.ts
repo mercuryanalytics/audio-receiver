@@ -1,4 +1,5 @@
 import "web-streams-polyfill";
+import "./getusermedia-polyfill";
 
 import ReadableAudioStream from "./capture_audio";
 import TransformMP3Stream from "./record_audio";
@@ -8,7 +9,12 @@ import StreamToServer from "./stream_to_server";
 export const getAudioStream = () =>
   navigator.mediaDevices.getUserMedia({
     video: false,
-    audio: { channelCount: { exact: 1 } }
+    audio: {
+      channelCount: { exact: 1 },
+      autoGainControl: { ideal: false },
+      echoCancellation: { ideal: false },
+      noiseSuppression: { ideal: false }
+    }
   });
 
 export const endTracks = (stream: MediaStream) =>
@@ -18,7 +24,7 @@ export const endTracks = (stream: MediaStream) =>
   });
 
 class MicrophoneCheckError extends Error {
-  constructor(message) {
+  constructor(message: string) {
     super(message);
     this.name = "MicrophoneCheckError";
   }
@@ -38,7 +44,7 @@ export const checkMicrophone = async (stream: MediaStream) => {
 };
 
 export const recordSample = (stream: MediaStream, rid: string) => {
-  const { sampleRate } = stream.getTracks()[0].getSettings();
+  const { sampleRate = 44100 } = stream.getTracks()[0].getSettings();
   if (!sampleRate) throw Error("Audio sample rate is undefined");
 
   return new ReadableAudioStream(stream, 16384)
