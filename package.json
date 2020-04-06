@@ -6,6 +6,7 @@
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.2.2",
+    "@types/node": "^13.11.0",
     "lamejs": "^1.2.0",
     "rollbar": "^2.15.0",
     "ts-loader": "^6.2.2",
