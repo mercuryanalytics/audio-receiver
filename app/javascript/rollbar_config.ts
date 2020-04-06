@@ -9,6 +9,12 @@ export default new Rollbar({
   captureUnhandledRejections: true,
   payload: {
     environment,
-    id: document.querySelector<HTMLMetaElement>("meta[name=rid]").content
+    person: {
+      id: document.querySelector<HTMLMetaElement>("meta[name=rid]").content
+    },
+    javascript: {
+      source_map_enabled: true,
+      code_version: "0.1"
+    }
   }
 });
