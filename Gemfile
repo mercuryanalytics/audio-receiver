@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -27,6 +29,7 @@ gem 'webpacker', '~> 4.0'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'rollbar'
+gem 'rack-attack'
 gem 'slim-rails'
 gem 'rack-cors'
 gem 'aws-sdk'
