@@ -1,6 +1,7 @@
 import "web-streams-polyfill";
 import "./getusermedia-polyfill";
 
+import Rollbar from "../rollbar_config";
 import ReadableAudioStream from "./capture_audio";
 import TransformMP3Stream from "./record_audio";
 import { TransformFloatToIntegerStream } from "./util";
@@ -15,6 +16,9 @@ export const getAudioStream = () =>
       echoCancellation: { ideal: false },
       noiseSuppression: { ideal: false }
     }
+  }).catch(e => {
+    Rollbar.warning("getUserMedia failed", e);
+    throw e;
   });
 
 export const endTracks = (stream: MediaStream) =>
@@ -44,7 +48,7 @@ export const checkMicrophone = async (stream: MediaStream) => {
 };
 
 export const recordSample = (stream: MediaStream, rid: string) => {
-  const { sampleRate = 44100 } = stream.getTracks()[0].getSettings();
+  const { sampleRate } = stream.getTracks()[0].getSettings();
   if (!sampleRate) throw Error("Audio sample rate is undefined");
 
   return new ReadableAudioStream(stream, 16384)

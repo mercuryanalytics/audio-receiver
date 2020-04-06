@@ -11,15 +11,6 @@ Rollbar.configure do |config|
   version = File.read(revision_file).chomp if File.exist?(revision_file)
 
   config.enabled = Rails.env.production?
-  config.js_enabled = true
-  config.js_options = {
-    enabled: Rails.env.production?,
-    accessToken: "086ed6a0d2f14f30aa2fa02588ef150f",
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-    payload: { environment: Rails.env, version: version }
-  }
-  config.scrub_fields |= [:transfer_data]
 
   # By default, Rollbar will try to call the `current_user` controller method
   # to fetch the logged-in user object, and then call that object's `id`
