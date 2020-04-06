@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault()
         button.style.display = "none"
         const stream = await getAudioStream();
+        console.log("Track settings", stream.getTracks()[0].getSettings())
+
         // FIXME: make it so we can cancel the timer if the mic check succeeds (AbortSignal?)
         countdown(
           document.querySelector<HTMLTimeElement>("#countdown"),

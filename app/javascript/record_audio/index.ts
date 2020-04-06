@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (button)
     button.addEventListener("click", async () => {
       const stream = await getAudioStream();
+      console.log("Track settings", stream.getTracks()[0].getSettings())
       countdown(
         document.querySelector<HTMLTimeElement>("#countdown"),
         duration

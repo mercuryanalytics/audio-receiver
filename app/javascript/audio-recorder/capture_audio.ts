@@ -39,7 +39,7 @@ class MediaStreamSource implements UnderlyingSource<Float32Array> {
       this.live = false;
     });
     // TODO: use new AudioWorklet api if available
-    const deadman = new DeadmanSwitch(1000, () => controller.error(Error("broken audio subsystem")));
+    const deadman = new DeadmanSwitch(5000, () => controller.error(Error("broken audio subsystem")));
     this.script.addEventListener("audioprocess", ({ inputBuffer }) => {
       deadman.heartbeat();
       if (!this.live) return;

@@ -8,18 +8,20 @@ import { TransformFloatToIntegerStream } from "./util";
 import StreamToServer from "./stream_to_server";
 
 export const getAudioStream = () =>
-  navigator.mediaDevices.getUserMedia({
-    video: false,
-    audio: {
-      channelCount: { exact: 1 },
-      autoGainControl: { ideal: false },
-      echoCancellation: { ideal: false },
-      noiseSuppression: { ideal: false }
-    }
-  }).catch(e => {
-    Rollbar.warning("getUserMedia failed", e);
-    throw e;
-  });
+  navigator.mediaDevices
+    .getUserMedia({
+      video: false,
+      audio: {
+        channelCount: { exact: 1 },
+        autoGainControl: { ideal: false },
+        echoCancellation: { ideal: false },
+        noiseSuppression: { ideal: false }
+      }
+    })
+    .catch(e => {
+      Rollbar.warning("getUserMedia failed", e);
+      throw e;
+    });
 
 export const endTracks = (stream: MediaStream) =>
   stream.getTracks().forEach(track => {
@@ -49,14 +51,12 @@ export const checkMicrophone = async (stream: MediaStream) => {
 
 export const recordSample = (stream: MediaStream, rid: string) => {
   const { sampleRate } = stream.getTracks()[0].getSettings();
-  if (sampleRate == null) {
-    Rollbar.info("Sample rate undefined", { stream_settings: stream.getTracks()[0].getSettings() })
-    throw Error("Audio sample rate is undefined");
-  }
+  if (sampleRate == null) throw Error("Audio sample rate is undefined");
+  if (sampleRate === 0) throw Error("Broken audio subsystem (sampleRate is 0)");
 
   return new ReadableAudioStream(stream, 16384)
     .pipeThrough(new TransformFloatToIntegerStream())
-    .pipeThrough(new TransformMP3Stream(sampleRate || 44100, 128))
+    .pipeThrough(new TransformMP3Stream(sampleRate, 128))
     .pipeTo(new WritableStream(new StreamToServer(`/media/${rid}`, 1)));
 };
 
