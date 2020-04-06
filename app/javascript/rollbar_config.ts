@@ -7,5 +7,8 @@ export default new Rollbar({
   accessToken: "086ed6a0d2f14f30aa2fa02588ef150f",
   captureUncaught: true,
   captureUnhandledRejections: true,
-  payload: { environment }
+  payload: {
+    environment,
+    id: document.querySelector<HTMLMetaElement>("meta[name=rid]").content
+  }
 });

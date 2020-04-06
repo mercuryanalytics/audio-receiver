@@ -1,3 +1,4 @@
+import Rollbar from "../rollbar_config";
 import {
   countdown,
   recordSample,
@@ -13,13 +14,18 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector<HTMLMetaElement>("meta[name=rid]").content || "test";
   if (button)
     button.addEventListener("click", async () => {
-      const stream = await getAudioStream();
-      console.log("Track settings", stream.getTracks()[0].getSettings())
-      countdown(
-        document.querySelector<HTMLTimeElement>("#countdown"),
-        duration
-      ).then(() => endTracks(stream));
-      await recordSample(stream, rid);
-      button.dispatchEvent(new CustomEvent("completed"));
+      try {
+        const stream = await getAudioStream();
+        console.log("Track settings", stream.getTracks()[0].getSettings());
+        countdown(
+          document.querySelector<HTMLTimeElement>("#countdown"),
+          duration
+        ).then(() => endTracks(stream));
+        await recordSample(stream, rid);
+      } catch (e) {
+        Rollbar.error("Recording error", e);
+      } finally {
+        button.dispatchEvent(new CustomEvent("completed"));
+      }
     });
 });
