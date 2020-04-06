@@ -96,7 +96,3 @@ production:
 
   # Cache manifest.json for performance
   cache_manifest: true
-
-  performance:
-    max_entry_point_size: 512000
-    max_asset_size: 512000
