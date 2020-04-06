@@ -50,7 +50,7 @@ export const checkMicrophone = async (stream: MediaStream) => {
 export const recordSample = (stream: MediaStream, rid: string) => {
   const { sampleRate } = stream.getTracks()[0].getSettings();
   if (!sampleRate) {
-    Rollbar.info("Sample rate undefined", { stream_settings: stream.getTracks[0].getSettings() })
+    Rollbar.info("Sample rate undefined", { stream_settings: stream.getTracks()[0].getSettings() })
     throw Error("Audio sample rate is undefined");
   }
 
