@@ -49,14 +49,14 @@ export const checkMicrophone = async (stream: MediaStream) => {
 
 export const recordSample = (stream: MediaStream, rid: string) => {
   const { sampleRate } = stream.getTracks()[0].getSettings();
-  if (!sampleRate) {
+  if (sampleRate == null) {
     Rollbar.info("Sample rate undefined", { stream_settings: stream.getTracks()[0].getSettings() })
     throw Error("Audio sample rate is undefined");
   }
 
   return new ReadableAudioStream(stream, 16384)
     .pipeThrough(new TransformFloatToIntegerStream())
-    .pipeThrough(new TransformMP3Stream(sampleRate, 128))
+    .pipeThrough(new TransformMP3Stream(sampleRate || 44100, 128))
     .pipeTo(new WritableStream(new StreamToServer(`/media/${rid}`, 1)));
 };
 
