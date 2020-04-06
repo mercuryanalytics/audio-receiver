@@ -1,6 +1,6 @@
 import * as Rollbar from "rollbar";
 
-const environment = process ? process.env.NODE_ENV : "production";
+const environment = process.env.RAILS_ENV;
 console.log("env", environment);
 export default new Rollbar({
   enabled: environment === "production",
