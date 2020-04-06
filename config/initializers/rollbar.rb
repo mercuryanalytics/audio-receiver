@@ -6,10 +6,6 @@ Rollbar.configure do |config|
 
   config.access_token = '7914f45c9bf74b73adeb8ed76ef0a1ea'
 
-  version = nil
-  revision_file = Rails.root.join("REVISION")
-  version = File.read(revision_file).chomp if File.exist?(revision_file)
-
   config.enabled = Rails.env.production?
 
   # By default, Rollbar will try to call the `current_user` controller method
