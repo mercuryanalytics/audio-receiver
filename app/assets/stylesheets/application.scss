@@ -83,8 +83,10 @@ a.btn {
 
 #countdown { display: block }
 
-#cellphone_mockup_top {
-  width: 100%;
+@media (orientation: portrait) {
+  #cellphone_mockup_top {
+    width: 100%;
+  }
 }
 
 #testing { display: none; }
