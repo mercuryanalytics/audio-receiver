@@ -21,6 +21,10 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 
 set :log_level, :info
 
+set :rollbar_token, "7914f45c9bf74b73adeb8ed76ef0a1ea"
+set :rollbar_env, (proc { fetch :stage })
+set :rollbar_role, (proc { :app })
+
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
