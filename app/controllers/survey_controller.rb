@@ -4,7 +4,7 @@ require 'auth_code_validator'
 
 class SurveyController < ApplicationController
   before_action :validate_auth_code, if: -> { params[:id] == "index" && params.key?(:code) }
-  before_action :check_rid
+  before_action :check_rid, unless: -> { params[:id] == "test" }
 
   def show
     session[:cell] = params[:cell] if params[:cell].present?

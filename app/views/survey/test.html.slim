@@ -1,0 +1,10 @@
+table
+  tbody
+
+javascript:
+  const tbody = document.querySelector("tbody")
+  for (let [k, v] of Object.entries(navigator.mediaDevices.getSupportedConstraints())) {
+    const row = tbody.insertRow(-1);
+    row.insertCell(-1).textContent = k;
+    row.insertCell(-1).textContent = v;
+  }

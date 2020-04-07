@@ -7,21 +7,30 @@ import TransformMP3Stream from "./record_audio";
 import { TransformFloatToIntegerStream } from "./util";
 import StreamToServer from "./stream_to_server";
 
-export const getAudioStream = () =>
-  navigator.mediaDevices
-    .getUserMedia({
-      video: false,
-      audio: {
-        channelCount: { exact: 1 },
-        autoGainControl: { ideal: false },
-        echoCancellation: { ideal: false },
-        noiseSuppression: { ideal: false }
-      }
-    })
-    .catch(e => {
-      Rollbar.warning("getUserMedia failed", e);
-      throw e;
-    });
+export const getAudioStream = async () => {
+  try {
+    const supported = navigator.mediaDevices.getSupportedConstraints();
+    const audio: MediaTrackConstraints = { channelCount: { exact: 1 } };
+    /* NOTE: This shouldn't be necessary, as `getUserMedia` is supposed to
+     * simply ignore any unsupported constraints. For reasons not yet understood,
+     * some iPhones return `false` for `supported.echoCancellation`. Yet the
+     * specification indicates that, if the constraint isn't supported the
+     * key should be absent, and if it's supported the value should be `true`,
+     * with no other alternatives.
+     *   In this situation, calling `getUserMedia` requesting that echo cancellation
+     * be disabled returns a "broken" stream--it reports its sample rate as zero
+     * and delivers silence as its audio data.
+     *   Here, we avoid requesting features that return `false`.
+     */
+    if (supported.autoGainControl) audio.autoGainControl = { ideal: false };
+    if (supported.echoCancellation) audio.echoCancellation = { ideal: false };
+    if (supported.noiseSuppression) audio.noiseSuppression = { ideal: false };
+    return await navigator.mediaDevices.getUserMedia({ video: false, audio });
+  } catch (e) {
+    Rollbar.warning("getUserMedia failed", e);
+    throw e;
+  }
+};
 
 export const endTracks = (stream: MediaStream) =>
   stream.getTracks().forEach(track => {
@@ -54,7 +63,7 @@ export const recordSample = (stream: MediaStream, rid: string) => {
   if (sampleRate == null) throw Error("Audio sample rate is undefined");
   if (sampleRate === 0) throw Error("Broken audio subsystem (sampleRate is 0)");
 
-  return new ReadableAudioStream(stream, 16384)
+  return new ReadableAudioStream(stream)
     .pipeThrough(new TransformFloatToIntegerStream())
     .pipeThrough(new TransformMP3Stream(sampleRate, 128))
     .pipeTo(new WritableStream(new StreamToServer(`/media/${rid}`, 1)));
