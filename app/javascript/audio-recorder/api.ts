@@ -63,7 +63,7 @@ export const recordSample = (stream: MediaStream, rid: string) => {
   if (sampleRate == null) throw Error("Audio sample rate is undefined");
   if (sampleRate === 0) throw Error("Broken audio subsystem (sampleRate is 0)");
 
-  return new ReadableAudioStream(stream)
+  return new ReadableAudioStream(stream, 16384)
     .pipeThrough(new TransformFloatToIntegerStream())
     .pipeThrough(new TransformMP3Stream(sampleRate, 128))
     .pipeTo(new WritableStream(new StreamToServer(`/media/${rid}`, 1)));
