@@ -6,7 +6,7 @@ import {
   endTracks
 } from "../audio-recorder/api";
 
-const duration: number = 30_000; //5 * 60_000;
+const duration: number = 5 * 60_000;
 
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.getElementById("record");
