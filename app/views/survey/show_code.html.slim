@@ -6,5 +6,7 @@ p.hero
   span
     = browser_code
 
+p
+  'Once you have entered the above code on your computer, wait for further instructions before clicking the "Next" button below.
 - unless session[:rid] == 0
   = link_to "Next", survey_path(id: :rate), class: :btn
