@@ -1,3 +1,43 @@
+type OutputType = {
+  desktopCode: string;
+  desktopRid: string;
+  mobileRid: string;
+  mobileCode: string;
+}
+
+type Output = Partial<OutputType>;
+
+const Output: Output = {};
+
+const fillOutputFields = () => {
+  Object.entries(Output).map(([key, value]) => {
+    const strong = document.querySelector("#" + key) as HTMLInputElement
+    strong.innerText = value
+  })
+}
+
+const addToOutput = (code: HTMLInputElement, rid: HTMLInputElement) => {
+  if (code.value) {
+    Output.desktopRid = generateRid(code.value, 3557).toString()
+    Output.mobileRid = generateRid(code.value, 3593).toString()
+  }
+  if (rid.value) {
+    Output.desktopCode = generateCheckCode(parseInt(rid.value), 3557)
+    Output.mobileCode = generateCheckCode(parseInt(rid.value), 3593)
+  }
+  fillOutputFields()
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("#check")
+  button.addEventListener("submit", (e) => {
+    e.preventDefault()
+    const code = document.querySelector("#code") as HTMLInputElement
+    const rid = document.querySelector("#rid") as HTMLInputElement
+    addToOutput(code, rid)
+  })
+})
+
 function generateCheckCode(rid: number, seed: number) {
   function toChar(n: number) {
     return String.fromCharCode(n + A);
