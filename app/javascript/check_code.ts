@@ -30,6 +30,7 @@ const addToOutput = (code: HTMLInputElement, rid: HTMLInputElement) => {
 
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("#check")
+  if (!button) return;
   button.addEventListener("submit", (e) => {
     e.preventDefault()
     const code = document.querySelector("#code") as HTMLInputElement
