@@ -1,0 +1,21 @@
+// code_check view
+= form_tag(survey_path(id: :code_check), id: :check)
+  p Please enter the 4-character verification code you received from the survey.
+  label Code
+  = text_field_tag :code, nil, class: "left" , autocomplete: "off", autocorrect: "off", spellcheck: "false"
+  div.top
+    label Desktop Rid
+    strong#desktopRid.left
+    br
+    label Mobile Rid
+    strong#mobileRid.left
+  br
+  label RID
+  = text_field_tag :rid, nil, class: "left" , autocomplete: "off", autocorrect: "off", spellcheck: "false"
+  div.top
+    label Desktop Code
+    strong#desktopCode.left
+    br
+    label_tag Mobile Code
+    strong#mobileCode.left
+  = button_tag "Check"
