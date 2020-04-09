@@ -1,0 +1,4 @@
+// code_check view
+= form_tag(survey_path(id: :index))
+  p Please enter the 4-character verification code you received from the survey.
+  = text_field_tag :code, nil, autocomplete: "off", autocorrect: "off", spellcheck: "false"
